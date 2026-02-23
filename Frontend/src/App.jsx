@@ -1,3 +1,4 @@
+import { Route, Routes } from "react-router"
 import CreatePage from "./pages/CreatePage"
 import HomePage from "./pages/HomePage"
 import NoteDetailPage from "./pages/NoteDetailPage"
