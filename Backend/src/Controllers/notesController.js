@@ -1,15 +1,44 @@
-export function getAllNotes(req, res) {
-    res.status(200).send("Fetched all the notes");
+import Note from "../models/Note.js";
+
+export async function getAllNotes(req, res) {
+    try {
+        const notes = await Note.find();
+        res.status(200).json(notes);
+    } catch (e) {
+        res.status(500).json({ error: "Internal Server Error", details: e.message });
+    }
 }
 
-export function createNote (req, res){
-    res.status(201).send(`Note created successfully with title: ${req.body.title}`);
+export async function createNote(req, res) {
+    try {
+        const { title, content } = req.body;
+        const newNote = new Note({ title: title, content: content });
+        await newNote.save();
+        res.status(201).json({ message: "Note created successfully", note: newNote });
+    } catch (error) {
+        res.status(500).json({ message: "Internal Server Error", details: error.message });
+    }
 }
 
-export function updateNote (req, res){
-    res.status(200).send(`Note with ID ${req.params.id} updated successfully with title: ${req.body.title}`);
+export async function updateNote(req, res) {
+    try {
+        const { title, content } = req.body;
+        await Note.findByIdAndUpdate(req.params.id, { title, content }, { new: true });
+        res.status(200).json({ message: `Note with ID ${req.params.id} updated successfully` });
+
+    } catch (error) {
+        res.status(500).json({ message: "Internal Server Error", details: error.message });
+    }
 }
 
-export function deleteNote (req, res){
-    res.status(200).send(`Note with ID ${req.params.id} deleted successfully`);
+export async function deleteNote(req, res) {
+    try {
+        const deleteNote = await Note.findByIdAndDelete(req.params.id);
+        if(!deleteNote){
+            res.status(404).json({ message: `Note with ID ${req.params.id} not found` });
+        }
+        res.status(200).json({message: `Note with ID ${req.params.id} deleted successfully`});
+    } catch (error) {
+        es.status(500).json({ message: "Internal Server Error", details: error.message });
+    }
 }
