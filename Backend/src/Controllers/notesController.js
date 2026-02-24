@@ -9,6 +9,23 @@ export async function getAllNotes(req, res) {
     }
 }
 
+export async function getByID(req, res) {
+    try {
+      const { id } = req.params;
+      const note = await Note.findById(id);
+  
+      if (!note) {
+        return res.status(404).json({ message: `Note with ID ${id} not found` });
+      }
+  
+      res.status(200).json(note);
+    } catch (e) {
+      res
+        .status(500)
+        .json({ error: "Internal Server Error", details: e.message });
+    }
+  }
+
 export async function createNote(req, res) {
     try {
         const { title, content } = req.body;
