@@ -8,6 +8,7 @@ const NoteDetailPage = () => {
   const [note, setNote] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
@@ -51,9 +52,23 @@ const NoteDetailPage = () => {
     }
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
+    if (deleting) return;
 
-  }
+    const ok = window.confirm("Delete this note? This can't be undone.");
+    if (!ok) return;
+
+    try {
+      setDeleting(true);
+      await api.delete(`/notes/${id}`);
+      toast.success("Note deleted successfully!");
+      navigate("/");
+    } catch (error) {
+      toast.error("Failed to delete note.");
+    } finally {
+      setDeleting(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -90,9 +105,10 @@ const NoteDetailPage = () => {
             <button
               onClick={handleDelete}
               className="btn btn-error btn-outline"
+              disabled={deleting}
             >
               <TrashIcon className="size-5" />
-              Delete Note
+              {deleting ? "Deleting..." : "Delete Note"}
             </button>
           </div>
 

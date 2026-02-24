@@ -52,10 +52,10 @@ export async function deleteNote(req, res) {
     try {
         const deleteNote = await Note.findByIdAndDelete(req.params.id);
         if(!deleteNote){
-            res.status(404).json({ message: `Note with ID ${req.params.id} not found` });
+            return res.status(404).json({ message: `Note with ID ${req.params.id} not found` });
         }
         res.status(200).json({message: `Note with ID ${req.params.id} deleted successfully`});
     } catch (error) {
-        es.status(500).json({ message: "Internal Server Error", details: error.message });
+        res.status(500).json({ message: "Internal Server Error", details: error.message });
     }
 }
