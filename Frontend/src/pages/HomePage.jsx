@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import Navbar from "../componenets/navbar"
+import Navbar from "../componenets/Navbar"
 import RateLimitedUI from "../componenets/RateLimitedUI";
 import toast from "react-hot-toast";
 import NoteCard from "../componenets/NoteCard";
