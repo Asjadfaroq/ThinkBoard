@@ -2,7 +2,7 @@
 
 ThinkBoard is a minimal, fast, and elegant note‑taking web app. It lets you create, view, edit, and delete notes with a clean UI powered by React, Tailwind CSS, and DaisyUI, backed by a Node.js/Express API and MongoDB.
 
-**Live application:** `https://thinkboard-hfgb.onrender.com/`
+**Live application:** https://thinkboard-hfgb.onrender.com/
 
 ---
 
